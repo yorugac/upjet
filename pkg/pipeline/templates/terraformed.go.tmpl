@@ -47,9 +47,9 @@ func (tr *{{ .CRD.Kind }}) SetObservation(obs map[string]any) error {
 }
 
 // GetID returns ID of underlying Terraform resource of this {{ .CRD.Kind }}
-func (tr *{{ .CRD.Kind }}) GetID() string {
+func (tr *{{ .CRD.Kind }}) GetID() {{ .ID.Type }} {
     if tr.Status.AtProvider.ID == nil {
-        return ""
+        return {{ .ID.ZeroValue }}
     }
     return *tr.Status.AtProvider.ID
 }
