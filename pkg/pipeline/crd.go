@@ -61,9 +61,13 @@ func (cg *CRDGenerator) Generate(cfg *config.Resource) (string, error) {
 	)
 
 	deleteOmittedFields(cfg.TerraformResource.Schema, cfg.ExternalName.OmittedFields)
-	cfg.TerraformResource.Schema["id"] = &schema.Schema{
-		Type:     schema.TypeString,
-		Computed: true,
+	if _, idDefined := cfg.TerraformResource.Schema["id"]; idDefined {
+		cfg.TerraformResource.Schema["id"].Computed = true
+	} else {
+		cfg.TerraformResource.Schema["id"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Computed: true,
+		}
 	}
 
 	gen, err := tjtypes.NewBuilder(cg.pkg).Build(cfg)
