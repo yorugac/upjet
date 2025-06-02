@@ -63,9 +63,9 @@ func (tg *TerraformedGenerator) Generate(cfgs []*terraformedInput, apiVersion st
 			"IgnoredFields":            cfg.LateInitializer.GetIgnoredCanonicalFields(),
 			"ConditionalIgnoredFields": cfg.LateInitializer.GetConditionalIgnoredCanonicalFields(),
 		}
-		t, zero := describeType(cfg.TerraformResource.Schema["id"].Type)
+		_, zero := describeType(cfg.TerraformResource.Schema["id"].Type)
 		vars["ID"] = map[string]any{
-			"Type":      t,
+			// "Type":      t, // this is unnecessary if GetID interface is changed to return any
 			"ZeroValue": zero,
 		}
 
