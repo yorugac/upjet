@@ -63,11 +63,11 @@ func (tg *TerraformedGenerator) Generate(cfgs []*terraformedInput, apiVersion st
 			"IgnoredFields":            cfg.LateInitializer.GetIgnoredCanonicalFields(),
 			"ConditionalIgnoredFields": cfg.LateInitializer.GetConditionalIgnoredCanonicalFields(),
 		}
-		_, zero := describeType(cfg.TerraformResource.Schema["id"].Type)
-		vars["ID"] = map[string]any{
-			// "Type":      t, // this is unnecessary if GetID interface is changed to return any
-			"ZeroValue": zero,
-		}
+		// _, zero := describeType(cfg.TerraformResource.Schema["id"].Type)
+		// vars["ID"] = map[string]any{
+		// 	// "Type":      t, // this is unnecessary if GetID interface is changed to return any
+		// 	"ZeroValue": zero,
+		// }
 
 		if err := trFile.Write(filePath, vars, os.ModePerm); err != nil {
 			return errors.Wrapf(err, "cannot write the Terraformed interface implementation file %s", filePath)
