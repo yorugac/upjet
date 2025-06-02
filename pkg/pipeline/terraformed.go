@@ -79,7 +79,9 @@ func (tg *TerraformedGenerator) Generate(cfgs []*terraformedInput, apiVersion st
 // is there a better way to get these values from ValueType?
 func describeType(t schema.ValueType) (string, any) {
 	switch t {
-	case schema.TypeFloat, schema.TypeInt:
+	case schema.TypeFloat:
+		return "float64", 0.0
+	case schema.TypeInt:
 		return "int64", 0
 	default: // assume schema.TypeString
 		return "string", "\"\""
