@@ -34,7 +34,7 @@ func (o *Observable) SetObservation(data map[string]any) error {
 }
 
 // GetID is a mock.
-func (o *Observable) GetID() any {
+func (o *Observable) GetID() string {
 	return o.ID
 }
 

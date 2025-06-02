@@ -12,7 +12,7 @@ import (
 type Observable interface {
 	GetObservation() (map[string]any, error)
 	SetObservation(map[string]any) error
-	GetID() any
+	GetID() string
 }
 
 // Parameterizable structs can get and set parameters of the managed resource

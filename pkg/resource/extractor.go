@@ -5,8 +5,6 @@
 package resource
 
 import (
-	"fmt"
-
 	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
 	xpref "github.com/crossplane/crossplane-runtime/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/pkg/resource"
@@ -21,7 +19,7 @@ func ExtractResourceID() xpref.ExtractValueFn {
 		if !ok {
 			return ""
 		}
-		return fmt.Sprintf("%v", tr.GetID())
+		return tr.GetID()
 	}
 }
 
