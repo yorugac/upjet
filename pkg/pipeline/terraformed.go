@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/muvaf/typewriter/pkg/wrapper"
 	"github.com/pkg/errors"
 
@@ -62,9 +63,10 @@ func (tg *TerraformedGenerator) Generate(cfgs []*terraformedInput, apiVersion st
 			"IgnoredFields":            cfg.LateInitializer.GetIgnoredCanonicalFields(),
 			"ConditionalIgnoredFields": cfg.LateInitializer.GetConditionalIgnoredCanonicalFields(),
 		}
+		t, zero := describeType(cfg.TerraformResource.Schema["id"].Type)
 		vars["ID"] = map[string]any{
-			"Type":      cfg.TerraformResource.Schema["id"].Type.String(),
-			"ZeroValue": cfg.TerraformResource.Schema["id"].Type.Zero(),
+			"Type":      t,
+			"ZeroValue": zero,
 		}
 
 		if err := trFile.Write(filePath, vars, os.ModePerm); err != nil {
@@ -72,4 +74,14 @@ func (tg *TerraformedGenerator) Generate(cfgs []*terraformedInput, apiVersion st
 		}
 	}
 	return nil
+}
+
+// is there a better way to get these values from ValueType?
+func describeType(t schema.ValueType) (string, any) {
+	switch t {
+	case schema.TypeFloat, schema.TypeInt:
+		return "int64", 0
+	default: // assume schema.TypeString
+		return "string", "\"\""
+	}
 }
